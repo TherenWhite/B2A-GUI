@@ -13,7 +13,7 @@ if __name__ == "__main__":
     '''
     Main loop, this function deals with intialization, function threading, and shortcut threading
     '''
-    intialize_arduino()
+    #intialize_arduino()
     intialize_speech() #intialize speech
     on_triggered() #opens webbrowser
 
