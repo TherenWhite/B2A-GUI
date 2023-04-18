@@ -17,7 +17,7 @@ class ShortcutsGUI:
 
         self.root.geometry("900x600+10+20")
         self.root.configure(bg='peach puff')
-        self.root.title('Main Menu')
+        self.root.title('Shortcuts')
 
         self.label = tk.Label(self.root, text="Shortcuts", font=('Arial', 18))
         self.label.pack(padx=20, pady=20)
@@ -141,7 +141,7 @@ class SettingsGUI:
         self.btn1 = tk.Button(self.root, text="Shortcuts", font=('Arial', 14), command = self.OpenShortcuts)
         self.btn1.place(x= 350, y = 100, height = 100, width = 200)
 
-        self.btn2 = tk.Button(self.root, text="Speech Speed", font=('Arial', 14))
+        self.btn2 = tk.Button(self.root, text="Speech Speed", font=('Arial', 14), command = self.OpenSpeeds)
         self.btn2.place(x= 350, y = 250, height = 100, width = 200)
 
         self.backBtn = tk.Button(self.root, text = "< Main Menu", font = ('Arial', 12), command = self.ReturnToMain)
@@ -156,6 +156,10 @@ class SettingsGUI:
     def ReturnToMain(self):
         self.root.destroy()
         MainMenu()
+
+    def OpenSpeeds(self):
+        self.root.destroy()
+        SpeechSpeedGUI()
 
 class ModesGUI:
     def __init__(self):
@@ -572,3 +576,104 @@ class ContinueTranslation:
     def ReturnToShortcuts(self):
         self.root.destroy()
         ShortcutsGUI()
+
+class SpeechSpeedGUI:
+    def __init__(self):
+        self.root = tk.Tk()
+
+        self.root.geometry("900x600+10+20")
+        self.root.configure(bg='peach puff')
+        self.root.title('Speed Settings')
+
+        self.label = tk.Label(self.root, text="Speech Speed", font=('Arial', 18))
+        self.label.pack(padx=20, pady=20)
+
+        self.btn1 = tk.Button(self.root, text="Slow\n(100 wpm)", font=('Arial', 14), command = self.SlowSpeed, bg='tomato')
+        self.btn1.place(x= 100, y = 250, height = 200, width = 200)
+
+        self.btn2 = tk.Button(self.root, text="Medium\n(200 wpm)", font=('Arial', 14), command = self.MediumSpeed, bg='gold')
+        self.btn2.place(x= 350, y = 250, height = 200, width = 200)
+
+        self.btn3 = tk.Button(self.root, text="Fast\n(300 wpm)", font=('Arial', 14), command = self.FastSpeed, bg='SpringGreen2')
+        self.btn3.place(x= 600, y = 250, height = 200, width = 200)
+
+        self.backBtn = tk.Button(self.root, text = "< Settings", font = ('Arial', 12), command = self.ReturnToSettings)
+        self.backBtn.place(x=10, y=10, height = 50, width = 100)
+
+
+        shortcut  = read_shortcut()
+        self.var = tk.StringVar()
+        self.var.set(shortcut["speed"])
+        self.label2 = tk.Label(self.root, textvariable=self.var, font=('Arial', 18))
+        self.label2.place(x=500, y = 100)
+
+        self.label3 = tk.Label(self.root, text = "Current Speed: ", font=('Arial', 18))
+        self.label3.place(x=300, y = 100)
+
+        self.SaveButton = tk.Button(self.root, text="Save", font=('Arial', 14), bg='green', command=self.onSave)
+        self.SaveButton.place(x= 350, y = 480, height = 100, width = 200)
+
+        self.root.mainloop()
+
+    def SlowSpeed(self):
+        shortcut  = read_shortcut()
+        data = {
+            "readBraille" : shortcut["readBraille"],
+            "activateArduino" : shortcut["activateArduino"],
+            "navigation": shortcut["navigation"],
+            "accessibility": shortcut["accessibility"],
+            "hierarchy" : shortcut["hierarchy"],
+            "indexMinus" : shortcut["indexMinus"],
+            "indexPlus": shortcut["indexPlus"],
+            "speak" : shortcut["speak"],
+            "brailleQuit" : shortcut["brailleQuit"],
+            "brailleContiue": shortcut["brailleContiue"],
+            "speed": 100
+        }
+        write_json(data)
+        self.var.set(shortcut["speed"])
+
+    def MediumSpeed(self):
+        shortcut  = read_shortcut()
+        data = {
+            "readBraille" : shortcut["readBraille"],
+            "activateArduino" : shortcut["activateArduino"],
+            "navigation": shortcut["navigation"],
+            "accessibility": shortcut["accessibility"],
+            "hierarchy" : shortcut["hierarchy"],
+            "indexMinus" : shortcut["indexMinus"],
+            "indexPlus": shortcut["indexPlus"],
+            "speak" : shortcut["speak"],
+            "brailleQuit" : shortcut["brailleQuit"],
+            "brailleContiue": shortcut["brailleContiue"],
+            "speed": 200
+        }
+        write_json(data)
+        self.var.set(shortcut["speed"])
+
+    def FastSpeed(self):
+        shortcut  = read_shortcut()
+        data = {
+            "readBraille" : shortcut["readBraille"],
+            "activateArduino" : shortcut["activateArduino"],
+            "navigation": shortcut["navigation"],
+            "accessibility": shortcut["accessibility"],
+            "hierarchy" : shortcut["hierarchy"],
+            "indexMinus" : shortcut["indexMinus"],
+            "indexPlus": shortcut["indexPlus"],
+            "speak" : shortcut["speak"],
+            "brailleQuit" : shortcut["brailleQuit"],
+            "brailleContiue": shortcut["brailleContiue"],
+            "speed": 300
+        }
+        write_json(data)
+        self.var.set(shortcut["speed"])
+
+    def onSave(self):
+        shortcut  = read_shortcut()
+        self.var.set(shortcut["speed"])
+        self.label2.update
+
+    def ReturnToSettings(self):
+        self.root.destroy()
+        SettingsGUI()
